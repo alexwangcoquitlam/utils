@@ -65,10 +65,12 @@ if __name__ == "__main__":
         elif action == 'sort':
             run_list_sort(data)
         elif action == "lookup":
+            refined_list = run_lookup_prompts(data)
             while True:
-                refined_list = run_lookup_prompts(data)
                 action = input("Would you like to refine the search? [Y, N]\n")
                 if action == 'y':
                     run_lookup_prompts(refined_list)
+                elif action == 'n':
+                    break
         elif action == 'exit':
             break
