@@ -1,5 +1,6 @@
 import csv
 import pprint
+import os
 
 class bcolors:
     HEADER = '\033[95m'
@@ -13,12 +14,17 @@ class bcolors:
     UNDERLINE = '\033[4m'
     DEFAULT = '\033[39m'
 
+with open("lists\\tags.txt", 'r') as tags_file:
+    allowed_tags = tags_file.read().splitlines()
+
+with open("lists\\types.txt", 'r') as types_file:
+    allowed_types = types_file.read().splitlines()
 
 def run_list_sort(dictionary_list):
     try:
         sorted_list = sorted(dictionary_list, key=lambda x: x['word'])
         with open("dictionary.csv", 'w', newline='') as csv_file:
-                    writer = csv.DictWriter(csv_file, sorted_list[0].keys())
+                    writer = csv.DictWriter(csv_file, sorted_list[0].keys(), delimiter=';')
                     writer.writeheader()
                     writer.writerows(sorted_list)
 
@@ -36,8 +42,14 @@ def run_lookup_prompts(dictionary_list):
         elif action == 'back':
             break
         else:
+            if action == 'tags':
+                print(f"The following tags are available: {sorted(allowed_tags)}")
+            elif action == 'type':
+                print(f"The following types are available: {sorted(allowed_types)}")
             search_term = input("What would you like to search for?\n").lower()
-            pprint.pprint(next(row for row in dictionary_list if search_term.lower() in row[action].lower()))
+            refined_list = [row for row in dictionary_list if search_term.lower() in row[action].lower()]
+            pprint.pprint(refined_list)
+            return refined_list
 
 if __name__ == "__main__":
     allowed_actions = ['sort', 'lookup', 'exit']
@@ -53,6 +65,10 @@ if __name__ == "__main__":
         elif action == 'sort':
             run_list_sort(data)
         elif action == "lookup":
-            run_lookup_prompts(data)
+            while True:
+                refined_list = run_lookup_prompts(data)
+                action = input("Would you like to refine the search? [Y, N]\n")
+                if action == 'y':
+                    run_lookup_prompts(refined_list)
         elif action == 'exit':
             break

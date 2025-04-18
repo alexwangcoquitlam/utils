@@ -1,0 +1,16 @@
+(empty)
+unknown
+translation
+latin
+greek
+religion
+person
+attribute
+action
+language
+insult
+compliment
+philosophy
+school
+sex
+archaic

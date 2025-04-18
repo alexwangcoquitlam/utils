@@ -1,0 +1,6 @@
+phrases
+noun
+verb
+adjective
+adverb
+preposition
