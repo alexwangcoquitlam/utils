@@ -7,7 +7,7 @@ class bcolors:
     OKBLUE = '\033[94m'
     OKCYAN = '\033[96m'
     OKGREEN = '\033[92m'
-    WARNING = '\033[93m'
+    OKYELLOW = '\033[93m'
     FAIL = '\033[91m'
     ENDC = '\033[0m'
     BOLD = '\033[1m'
@@ -43,9 +43,9 @@ def run_lookup_prompts(dictionary_list):
             break
         else:
             if action == 'tags':
-                print(f"The following tags are available: {sorted(allowed_tags)}")
+                print(f"{bcolors.OKYELLOW}The following tags are available: {sorted(allowed_tags)}{bcolors.DEFAULT}")
             elif action == 'type':
-                print(f"The following types are available: {sorted(allowed_types)}")
+                print(f"{bcolors.OKYELLOW}The following types are available: {sorted(allowed_types)}{bcolors.DEFAULT}")
             search_term = input("What would you like to search for?\n").lower()
             refined_list = [row for row in dictionary_list if search_term.lower() in row[action].lower()]
             pprint.pprint(refined_list)
